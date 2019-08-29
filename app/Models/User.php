@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password'
+        'password', 'remember_token'
     ];
 
     /**
@@ -51,5 +51,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function purchased()
+    {
+        return $this->hasMany(Purchased::class,"user_id","id");
+
     }
 }

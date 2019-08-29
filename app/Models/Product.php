@@ -6,20 +6,24 @@
  * Time: 10:05
  */
 
-namespace App;
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
 
 
-class Product extends Model implements AuthenticatableContract, AuthorizableContract
+class Product extends Model
 {
-    use Authenticatable, Authorizable;
-
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        "sku","name"
+        "sku", "name"
     ];
+
+    public function purchased()
+    {
+         return $this->belongsToMany(Purchased::class,"product_sku","sku");
+    }
+
 }

@@ -12,17 +12,15 @@
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', [
-    'namespace' => 'App\Http\Controllers',
-], function ($api) {
+$api->version('v1', ['namespace' => 'App\Http\Controllers',], function ($api) {
+
     $api->post('/auth', 'AuthController@login');
-    $api->get('/me', 'UserController@getUser');
 
-    $api->group(['prefix' => 'user', 'middleware' => 'api.auth'], function ($api) {
-
-        $api->get('/products', 'ProductController@getProducts');
-        $api->post('/products', 'ProductController@addProducts');
-        $api->delete('/products/{SKU}', 'ProductController@removeProduct');
+    $api->group(['prefix' => 'user', 'middleware' => 'jwt.auth'], function ($api) {
+        $api->get('/', 'UserController@getUser');
+        $api->get('/products', 'UserController@getUserProducts');
+        $api->post('/products', 'UserController@addUserProducts');
+        $api->delete('/products/{SKU}', 'UserController@removeUserProduct');
     });
 
     $api->get('/products', 'ProductController@getAllProducts');
