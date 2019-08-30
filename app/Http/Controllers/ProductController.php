@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 /**
@@ -16,20 +17,14 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * ProductController constructor.
-     */
-    public function __construct()
-    {
-    }
 
     /**
-     * @return string
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function __toString()
+    public function getAllProducts()
     {
-        // TODO: Implement __toString() method.
+        $allProducts = Product::get();
+        return $this->response()->array($allProducts);
     }
-
 
 }

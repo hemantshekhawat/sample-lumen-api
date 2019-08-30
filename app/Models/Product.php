@@ -21,6 +21,13 @@ class Product extends Model
         "sku", "name"
     ];
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     public function purchased()
     {
          return $this->belongsToMany(Purchased::class,"product_sku","sku");
