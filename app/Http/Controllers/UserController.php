@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function getUser()
     {
-        return $this->response()->array($this->auth->user());
+        return $this->response()->array($this->auth->getUser());
     }
 
     /**
