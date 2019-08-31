@@ -17,7 +17,7 @@ class ProductsTable extends Migration
             Schema::create('products', function (Blueprint $table) {
                 $table->charset = 'utf8';
                 $table->collation = 'utf8_unicode_ci';
-                $table->string('sku')->primary();;
+                $table->string('sku')->primary()->index();
                 $table->string('name');
             });
         }

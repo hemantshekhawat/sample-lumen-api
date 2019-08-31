@@ -15,16 +15,11 @@ class PurchasedTable extends Migration
     {
         if (!Schema::hasTable("purchased")) {
             Schema::create('purchased', function (Blueprint $table) {
-                $table->integer('user_id',0,true);
+                $table->charset = 'utf8';
+                $table->collation = 'utf8_unicode_ci';
+
+                $table->bigInteger('user_id')->unsigned();
                 $table->string('product_sku');
-
-                $table->foreign('user_id')
-                    ->references('id')
-                    ->on('users');
-
-                $table->foreign('product_sku')
-                    ->references('sku')
-                    ->on('products');
             });
 
         }
