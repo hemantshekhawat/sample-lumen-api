@@ -3,4 +3,4 @@
 args="$@"
 command="composer $args"
 echo "$command"
-docker exec -it lumen-api bash -c "sudo -u devuser /bin/bash -c \"$command\""
+docker exec -it lumen-api bash -c "/bin/bash -c \"$command\""
