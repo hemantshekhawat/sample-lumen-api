@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -it -u root lumen-api bash -c "/bin/bash"

@@ -1,17 +1,17 @@
 version: '3'
 services:
 
-  #PHP Service
-  app:
+  #Lumen API Service
+  lumen-api:
     build:
       context: .
       dockerfile: Dockerfile
-    image: bitnami/php-fpm:latest
-    container_name: app
+    image: digitalocean.com/php
+    container_name: lumen-api
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: lumen-api
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
@@ -36,18 +36,16 @@ services:
     - app-network
 
   #MySQL Service
-  db:
-    image: mysql:5.7.27
-    container_name: db
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
     restart: unless-stopped
     tty: true
     ports:
     - "3306:3306"
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: homestead
+      MYSQL_ROOT_PASSWORD: secureroot
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
