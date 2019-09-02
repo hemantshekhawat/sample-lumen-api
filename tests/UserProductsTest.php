@@ -1,8 +1,5 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Lumen\Testing\DatabaseTransactions;
-
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 
@@ -20,14 +17,13 @@ class UserProductsTest extends TestCase
         $this->get("/api/products", []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure([
-            'products' => ['*' =>
-                [
+            'products' => [
+                '*' => [
                     'sku',
                     'name',
                 ]
             ]
         ]);
-
     }
 
     /**
@@ -52,7 +48,7 @@ class UserProductsTest extends TestCase
     }
 
     /**
-     * /products [POST]
+     * /api/user/products [POST]
      */
     public function testShouldCreateProduct()
     {
@@ -102,6 +98,11 @@ class UserProductsTest extends TestCase
         );
     }
 
+    /**
+     * Get JWT token of the first user from DB
+     *
+     * @return array
+     */
     public function getTestUserTokenHeader()
     {
         $this->refreshApplication();
@@ -114,7 +115,6 @@ class UserProductsTest extends TestCase
         ];
 
         return $header;
-
     }
 
 }

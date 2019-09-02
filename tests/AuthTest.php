@@ -9,42 +9,40 @@
 namespace tests;
 
 use App\Models\User;
-use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 use TestCase;
 
 class AuthTest extends TestCase
 {
-    use DatabaseMigrations;
-
-
     /**
-     * A basic test example.
+     * A basic test Login example with wrong credentials.
      *
      * @return void
      */
     public function testLoginWithWrongValidation()
     {
-//        $this->artisan('db:seed');
         $this->json('post', 'api/auth', [
             'email' => $this->faker->email,
-            'password' => 'asdasd'
+            'password' => $this->faker->password
         ])->seeJson([
             "error" => "Unauthorizend"
         ])->assertResponseStatus(401);
     }
 
     /**
+     * A basic test Login example with right credentials.
      *
+     * @return void
      */
     public function testCorrectLogin()
     {
         $email = $this->faker->email;
         $password = str_random(8);
+
         factory(User::class)->create([
             'email' => $email,
             'password' => app('hash')->make($password)
         ]);
+
         $this->json('post', 'api/auth', [
             'email' => $email,
             'password' => $password
@@ -57,18 +55,5 @@ class AuthTest extends TestCase
                 ]
             )
             ->assertResponseOk();
-    }
-
-    public function getTestUser()
-    {
-
-        $user = factory(User::class)->make(
-            [
-                "email" => "fahey.dana@krajcik.com",
-                "password" => "secret",
-            ]
-        );
-
-        return $user;
     }
 }
