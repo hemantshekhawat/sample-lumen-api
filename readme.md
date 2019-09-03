@@ -21,7 +21,7 @@ A basic starter kit for you to integrate Lumen with [JWT Authentication](https:/
 - Configure your `.env` file for authenticating via database or, if you want, use `.env.example` which is pre-configured to be used along with docker environment. 
 
 
-## A Live PoC
+## A Live PoC for local environment
 
 - Run a PHP built in server from your root project:
 
@@ -88,10 +88,113 @@ For rest of the routes, you can follow the below documents.
 - Postman Collection `/docs/Sample_Lumen_API.postman_collection.json` [Download file](../../raw/master/docs/Sample_Lumen_API.postman_collection.json)
 
 
+# Docker Helper Files
+
+- ***./container***
+```bash
+#!/bin/bash
+
+docker exec -it -u root lumen-api bash -c "/bin/bash"
+```
+
+- ***./composer***
+```bash
+#!/bin/bash
+
+args="$@"
+command="composer $args"
+echo "$command"
+docker exec -it lumen-api bash -c "/bin/bash -c \"$command\""
+```
+
+- ***./db***
+```bash
+#!/bin/bash
+
+docker exec -it mysql-db bash -c "mysql -u homestead -psecret"
+```
+
+- ***./php-artisan***
+```bash
+#!/bin/bash
+
+args="$@"
+command="php artisan $args"
+echo "$command"
+docker exec -it lumen-api bash -c "/bin/bash -c \"$command\""
+```
+
+- ***./run***
+```bash
+#!/usr/bin/env bash
+composer install
+php artisan key:generate
+php artisan optimize
+php artisan migrate:fresh --seed
+```
+
+# Deployment 
+### Sandbox/Prod
+
+
+#### Installation
+
+Development environment requirements :
+- [Docker](https://www.docker.com) >= 17.06 CE
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+Setting up your development environment on your local machine :
+```bash
+$ git clone https://github.com/hemantshekhawat/sample-lumen-api.git
+$ cd sample-lumen-api
+$ cp .env.example .env
+$ ./composer install
+$ ./php-artisan key:generate
+$ docker-compose up -d
+```
+
+Now you can access the application via [http://localhost:8000](http://localhost:8000).
+
+**There is no need to run ```php artisan serve```. PHP is already running in a dedicated container.**
+
+#### Before starting
+You need to run the migrations with the seeds :
+```bash
+$ ./php-artisan migrate --seed
+```
+
+This will create required tables (from sample `/DATA/*.csv`) and add users that you can use to sign in 
+
+
+### Useful commands
+
+Running tests :
+```bash
+# Enter the container
+$ ./container
+
+#Execute the PHPUnit Tests defined in /tests/
+root@ec152e6cb39c:/var/www# ./vendor/bin/phpunit --cache-result --order-by=defects --stop-on-defect
+
+
+### Test Results
+
+PHPUnit 7.5.15 by Sebastian Bergmann and contributors.
+
+.......                                                             7 / 7 (100%)
+
+Time: 327 ms, Memory: 16.00 MB
+
+OK (7 tests, 62 assertions)
+
+```
+
+
+
 ## License
 
 ```
-Laravel and Lumen is a trademark of Taylor Otwell
+Lumen is a trademark of Taylor Otwell
 Sean Tymon officially holds "Laravel JWT" license
 ```
 
