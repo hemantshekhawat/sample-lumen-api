@@ -14,9 +14,9 @@ A basic starter kit for you to integrate Lumen with [JWT Authentication](https:/
 
 - Clone this repo or download it's release archive and extract it to your web development environment
 - Run 
-```
-    `composer install`
-    `php artisan jwt:secret`
+```bash
+    composer install
+    php artisan key:generate
 ```
 - Configure your `.env` file for authenticating via database or, if you want, use `.env.example` which is pre-configured to be used along with docker environment. 
 
@@ -39,8 +39,8 @@ To authenticate a user, make a `POST` request to `/api/auth` with parameter as m
 
 ```
 Example : 
-email: johndoe@example.com
-password: johndoe
+email: mac94@moen.com
+password: secret
 ```
 
 Request:
@@ -75,7 +75,7 @@ Response:
 ```
 {
   "user": {
-    "name": "Dr. Lelia Hansen II"
+    "name": "Weston Ratke"
   }
 }
 ```
@@ -166,19 +166,20 @@ $ ./php-artisan migrate --seed
 This will create required tables (from sample `/DATA/*.csv`) and add users that you can use to sign in 
 
 
-### Useful commands
+### PHPUnit Test
 
-Running tests :
+- Enter the container
 ```bash
-# Enter the container
 $ ./container
-
-#Execute the PHPUnit Tests defined in /tests/
+```
+- Execute the PHPUnit Tests defined in /tests/
+```bash
 root@ec152e6cb39c:/var/www# ./vendor/bin/phpunit --cache-result --order-by=defects --stop-on-defect
 
+```
+- Test Results
 
-### Test Results
-
+```bash
 PHPUnit 7.5.15 by Sebastian Bergmann and contributors.
 
 .......                                                             7 / 7 (100%)
@@ -189,6 +190,9 @@ OK (7 tests, 62 assertions)
 
 ```
 
+# Data Persistence
+
+The `MySQL` environment has been added to the repo `/dbdata` and has been added as `volume` to the docker build. This will persist the database along with the repo.
 
 
 ## License
